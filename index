@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photobooth Online</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <h1 class="logo">📸 photobooth</h1>
+        <span class="header-sub">click · snap · download</span>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="main">
+
+      <!-- LEFT: Controls -->
+      <aside class="controls-panel">
+
+        <!-- Layout Picker -->
+        <section class="panel-section">
+          <h2 class="section-title">layout</h2>
+          <div class="layout-grid" id="layoutPicker">
+            <button class="layout-btn active" data-layout="1x1" title="1 foto">
+              <div class="layout-preview l1x1"><div></div></div>
+              <span>1 foto</span>
+            </button>
+            <button class="layout-btn" data-layout="2x2" title="4 foto">
+              <div class="layout-preview l2x2"><div></div><div></div><div></div><div></div></div>
+              <span>4 foto</span>
+            </button>
+            <button class="layout-btn" data-layout="strip" title="strip">
+              <div class="layout-preview lstrip"><div></div><div></div><div></div></div>
+              <span>strip</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Filter Picker -->
+        <section class="panel-section">
+          <h2 class="section-title">filter</h2>
+          <div class="filter-grid" id="filterPicker">
+            <button class="filter-btn active" data-filter="none">
+              <div class="filter-thumb" style="background:#ddd;"></div>
+              <span>normal</span>
+            </button>
+            <button class="filter-btn" data-filter="grayscale(100%)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#aaa,#333);"></div>
+              <span>b&w</span>
+            </button>
+            <button class="filter-btn" data-filter="sepia(100%)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#c9a85c,#7a5a2a);"></div>
+              <span>sepia</span>
+            </button>
+            <button class="filter-btn" data-filter="saturate(200%) hue-rotate(20deg)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#f7a,#a7f);"></div>
+              <span>vivid</span>
+            </button>
+            <button class="filter-btn" data-filter="brightness(1.2) contrast(1.1)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#fff9e0,#ffe066);"></div>
+              <span>bright</span>
+            </button>
+            <button class="filter-btn" data-filter="hue-rotate(180deg) saturate(150%)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#a0e7e5,#7b2d8b);"></div>
+              <span>neon</span>
+            </button>
+            <button class="filter-btn" data-filter="contrast(1.5) brightness(0.9)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#e0e0e0,#222);"></div>
+              <span>drama</span>
+            </button>
+            <button class="filter-btn" data-filter="saturate(0%) brightness(1.1) contrast(0.9)">
+              <div class="filter-thumb" style="background:linear-gradient(135deg,#e0d8cc,#9e9080);"></div>
+              <span>matte</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Frame Picker -->
+        <section class="panel-section">
+          <h2 class="section-title">frame</h2>
+          <div class="frame-grid" id="framePicker">
+            <button class="frame-btn active" data-frame="none">
+              <div class="frame-thumb no-frame">∅</div>
+              <span>none</span>
+            </button>
+            <button class="frame-btn" data-frame="classic">
+              <div class="frame-thumb frame-classic"></div>
+              <span>classic</span>
+            </button>
+            <button class="frame-btn" data-frame="polaroid">
+              <div class="frame-thumb frame-polaroid"></div>
+              <span>polaroid</span>
+            </button>
+            <button class="frame-btn" data-frame="floral">
+              <div class="frame-thumb frame-floral"></div>
+              <span>floral</span>
+            </button>
+            <button class="frame-btn" data-frame="retro">
+              <div class="frame-thumb frame-retro"></div>
+              <span>retro</span>
+            </button>
+            <button class="frame-btn" data-frame="birthday">
+              <div class="frame-thumb frame-birthday"></div>
+              <span>birthday</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Timer Setting -->
+        <section class="panel-section">
+          <h2 class="section-title">timer</h2>
+          <div class="timer-options" id="timerPicker">
+            <button class="timer-btn" data-timer="3">3s</button>
+            <button class="timer-btn active" data-timer="5">5s</button>
+            <button class="timer-btn" data-timer="10">10s</button>
+          </div>
+        </section>
+
+      </aside>
+
+      <!-- CENTER: Camera + Preview -->
+      <div class="camera-area">
+
+        <!-- Camera View -->
+        <div class="camera-wrapper" id="cameraWrapper">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="frameOverlay"></canvas>
+          <div class="countdown-overlay" id="countdown"></div>
+          <div class="flash-overlay" id="flash"></div>
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <div class="placeholder-icon">📷</div>
+            <p>klik tombol di bawah untuk mulai kamera</p>
+            <button class="btn btn-primary" id="startCameraBtn">mulai kamera</button>
+          </div>
+        </div>
+
+        <!-- Capture Controls -->
+        <div class="capture-controls">
+          <button class="btn btn-ghost" id="switchCameraBtn" title="ganti kamera">⟳</button>
+          <button class="btn btn-capture" id="captureBtn" disabled>
+            <span class="shutter-ring"></span>
+          </button>
+          <button class="btn btn-ghost" id="mirrorBtn" title="mirror">⇔</button>
+        </div>
+
+        <!-- Session Gallery -->
+        <div class="gallery-wrapper" id="galleryWrapper" style="display:none;">
+          <h3 class="gallery-title">hasil foto sesi ini</h3>
+          <div class="gallery" id="gallery"></div>
+          <div class="gallery-actions">
+            <button class="btn btn-primary" id="downloadAllBtn">⬇ download semua</button>
+            <button class="btn btn-ghost" id="clearGalleryBtn">hapus semua</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Preview Result -->
+      <aside class="result-panel" id="resultPanel" style="display:none;">
+        <h2 class="section-title">preview</h2>
+        <div class="result-preview">
+          <canvas id="resultCanvas"></canvas>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-primary" id="downloadBtn">⬇ download</button>
+          <button class="btn btn-secondary" id="retakeBtn">↺ retake</button>
+          <button class="btn btn-ghost" id="addToGalleryBtn">+ simpan ke galeri</button>
+        </div>
+        <div class="result-meta" id="resultMeta"></div>
+      </aside>
+
+    </main>
+
+  </div>
+
+  <!-- Canvas for compositing (hidden) -->
+  <canvas id="compositeCanvas" style="display:none;"></canvas>
+
+  <script src="js/frames.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
